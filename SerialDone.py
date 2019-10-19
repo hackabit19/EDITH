@@ -3,12 +3,12 @@ import time
 import math
 import cv2
 
-
-back = cv2.imread('black.jpg', 1)
+a = 0
+bck = cv2.imread('black.jpg', 1) #background image
 
 ser = serial.Serial('COM3',115200,timeout = 1) #object for taking lidar readings via serial communication
 
-bot = serial.Serial('COM11', 9600, timeout =1 ) #object for bot
+bot = serial.Serial('COM11', 9600, timeout = 1 ) #object for bot
  
 ser.write(0x42) # insturctions for lidar working
 ser.write(0x57)
@@ -18,9 +18,8 @@ ser.write(0x00)
 ser.write(0x00)
 ser.write(0x01)
 ser.write(0x06)
-
+a=0
 while(True):
-    while(ser.in_waiting >= 9):
         #print "a"
         if(('Y' == ser.read()) and ('Y' == ser.read())): # lidar sensor readings via serial communication
 
@@ -32,14 +31,9 @@ while(True):
         print (r)
 
 
-        angle = bot.readline()        #servo angle 
-        k = bytearray(angle,'utf-8')
-        k=int(k)
-        k=float(k)
-        x = math.cos(k) 
-        y = r * math.sin(k)
         x=r*x
         print(x,y)
+
 
 
         encx = bot.readline()
@@ -49,12 +43,14 @@ while(True):
         ency = bytearray(ency, 'utf-8') # y coordinate of bot
 
 
-        for i in range (0,100,2):
-            cv2.line(bck, (x,y), (encx,ency), [0,0,255], thickness=2)
-            cv2.imshow("Image",bck)
-            time.sleep(0.1)
-            cv2.waitKey(300)
-            cv2.destroyAllWindows()
+    
+        x=int(x)
+        y=int(y)
+        cv2.line(bck, (x,y), (10,10), [0,0,255], thickness=2)
+        cv2.imshow("Image",bck)
+        # time.sleep(0.1)
+        cv2.waitKey(100)
+        cv2.destroyAllWindows()
         
 
 
