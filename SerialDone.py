@@ -31,6 +31,18 @@ while(True):
         print (r)
 
 
+        angle = bot.readline()        #servo angle   
+        
+        s=angle.strip("b")
+        s1=s.rstrip()
+        if (s1.isdigit() == True):
+              a = (int(s1))
+              print(a)
+
+
+
+        x = math.cos(a) 
+        y = r * math.sin(a)
         x=r*x
         print(x,y)
 
